@@ -17,12 +17,6 @@ public class APIException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
-    public APIException(Throwable cause, Integer statusCode, String errorCode) {
-        super(cause);
-        this.statusCode = statusCode;
-        this.errorCode = errorCode;
-    }
-
     public Integer getStatusCode() {
         return statusCode;
     }

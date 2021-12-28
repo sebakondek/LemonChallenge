@@ -1,5 +1,6 @@
 package org.lemon.repository.utils;
 
+import org.lemon.configuration.util.DefaultJsonJackson;
 import org.lemon.exception.custom.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,12 @@ public abstract class RestRepositoryCommon {
 
     private static final Logger log = LoggerFactory.getLogger(RestRepositoryCommon.class);
     private static final HttpClient httpClient = HttpClient.newHttpClient();
+
+    protected final DefaultJsonJackson json;
+
+    public RestRepositoryCommon(DefaultJsonJackson json) {
+        this.json = json;
+    }
 
     protected HttpResponse<String> get(String uri) {
         try {

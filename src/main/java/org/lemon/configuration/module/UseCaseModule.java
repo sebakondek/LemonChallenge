@@ -1,7 +1,9 @@
 package org.lemon.configuration.module;
 
 import com.google.inject.AbstractModule;
+import org.lemon.core.usecase.imp.CheckConcurrencyDefault;
 import org.lemon.core.usecase.imp.ProcessMessageDefault;
+import org.lemon.core.usecase.interfaces.CheckConcurrency;
 import org.lemon.core.usecase.interfaces.ProcessMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ public class UseCaseModule extends AbstractModule {
         log.info("Initializing UseCases");
 
         bind(ProcessMessage.class).to(ProcessMessageDefault.class);
+        bind(CheckConcurrency.class).to(CheckConcurrencyDefault.class);
 
         log.info("Successfully initialized UseCases");
     }

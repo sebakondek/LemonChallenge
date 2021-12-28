@@ -8,7 +8,7 @@ public enum Tables {
             "PRIMARY KEY (CONCURRENCY_ID));" +
             "CREATE INDEX user_id_idx ON CONCURRENCY(USER_ID)");
 
-    private String creationScript;
+    private final String creationScript;
 
     Tables(String creationScript) {
         this.creationScript = creationScript;

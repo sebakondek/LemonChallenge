@@ -20,6 +20,8 @@ dependencies {
 
     implementation(group: 'com.zaxxer', name: 'HikariCP', version: '5.0.0')
     implementation(group: 'com.h2database', name: 'h2', version: '2.0.204')
+    implementation(group: 'commons-dbutils', name: 'commons-dbutils', version: '1.7')
+
 
     implementation(group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.32')
 
@@ -27,6 +29,7 @@ dependencies {
     implementation(group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.13.1')
 
     implementation(group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0')
+
 
     testImplementation('org.junit.jupiter:junit-jupiter-api:5.8.2')
     testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.8.2')

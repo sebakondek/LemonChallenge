@@ -6,6 +6,6 @@ import org.lemon.exception.entity.APIException;
 public class RepositoryException extends APIException {
 
     public RepositoryException(String message, Throwable cause) {
-        super(message, cause, HttpStatus.INTERNAL_SERVER_ERROR_500, "rest_exception");
+        super(message, cause, HttpStatus.INTERNAL_SERVER_ERROR_500, "repository_exception");
     }
 }

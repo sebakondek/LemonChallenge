@@ -10,12 +10,12 @@ public abstract class EntrypointCommon implements Route {
 
     protected static final String CALLER_ID_HEADER = "x-caller-id";
 
-    protected int validateAndReturnCallerId(String callerId) {
+    protected Long validateAndReturnCallerId(String callerId) {
         if(Objects.isNull(callerId)) {
             throw new ValidationException("Caller-id header cannot be null");
         }
 
-        int userId = Integer.parseInt(callerId);
+        Long userId = Long.parseLong(callerId);
 
         if(1234 != userId) {
             throw new AuthorizationException("Caller-id is not authorized");

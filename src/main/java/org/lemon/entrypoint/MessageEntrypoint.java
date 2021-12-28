@@ -10,7 +10,7 @@ import spark.Response;
 @Singleton
 public class MessageEntrypoint extends EntrypointCommon {
 
-    private ProcessMessage processMessage;
+    private final ProcessMessage processMessage;
 
     @Inject
     public MessageEntrypoint(ProcessMessage processMessage) {
@@ -19,7 +19,7 @@ public class MessageEntrypoint extends EntrypointCommon {
 
     @Override
     public FuckOff handle(Request request, Response response) {
-        int userId = super.validateAndReturnCallerId(request.headers(CALLER_ID_HEADER));
+        Long userId = super.validateAndReturnCallerId(request.headers(CALLER_ID_HEADER));
 
         return this.processMessage.execute(userId);
     }

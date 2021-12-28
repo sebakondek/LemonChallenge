@@ -1,4 +1,4 @@
-package org.lemon.repository.interfaces;
+package org.lemon.repository.rest.interfaces;
 
 import org.lemon.core.entity.FuckOff;
 
