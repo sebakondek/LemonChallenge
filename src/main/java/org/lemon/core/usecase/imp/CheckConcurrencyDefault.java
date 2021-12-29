@@ -21,7 +21,7 @@ public class CheckConcurrencyDefault implements CheckConcurrency {
     public void execute(Long userId) {
         Long concurrencyByUser = this.getConcurrencyByUserIdRepository.execute(userId);
 
-        if(5 == concurrencyByUser) {
+        if(5 <= concurrencyByUser) {
             throw new ConcurrencyExceededException("Concurrency limit of 5 in the last 10 seconds was exceeded.");
         }
     }

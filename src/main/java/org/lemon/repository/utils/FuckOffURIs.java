@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class FuckOffURIs {
+public abstract class FuckOffURIs {
 
     private static final List<String> URIsList = Arrays.asList(
             "/asshole/me",

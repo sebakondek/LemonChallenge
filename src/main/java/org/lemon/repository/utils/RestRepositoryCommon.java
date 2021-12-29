@@ -13,12 +13,13 @@ import java.net.http.HttpResponse;
 public abstract class RestRepositoryCommon {
 
     private static final Logger log = LoggerFactory.getLogger(RestRepositoryCommon.class);
-    private static final HttpClient httpClient = HttpClient.newHttpClient();
 
     protected final DefaultJsonJackson json;
+    private final HttpClient httpClient;
 
-    public RestRepositoryCommon(DefaultJsonJackson json) {
+    public RestRepositoryCommon(DefaultJsonJackson json, HttpClient httpClient) {
         this.json = json;
+        this.httpClient = httpClient;
     }
 
     protected HttpResponse<String> get(String uri) {

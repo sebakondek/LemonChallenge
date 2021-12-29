@@ -24,21 +24,18 @@ public abstract class DatabaseUtils {
         return dataSource;
     }
 
-    public static void createAllTables() {
+    public static void createTable(Tables table) {
         Connection conn;
 
         try {
             conn = getH2DataSource().getConnection();
-            Tables[] tables = Tables.values();
 
-            for (Tables table : tables) {
-                Statement statement = conn.createStatement();
-                statement.execute(table.getCreationScript());
-            }
+            Statement statement = conn.createStatement();
+            statement.execute(table.getCreationScript());
 
             conn.close();
         } catch (SQLException e) {
-            log.error("Failed creating all tables.");
+            log.error("Failed creating table " + table);
             throw new RuntimeException(e);
         }
     }
@@ -59,42 +56,19 @@ public abstract class DatabaseUtils {
         }
     }
 
+    public static void createAllTables() {
+       Tables[] tables = Tables.values();
+
+        for (Tables table : tables) {
+            createTable(table);
+        }
+    }
+
     public static void dropAllTables() {
         Tables[] tables = Tables.values();
 
         for (Tables table : tables) {
             executeDrop(table);
-        }
-    }
-
-    public static void createTable(Tables table) {
-        Connection conn;
-
-        try {
-            conn = getH2DataSource().getConnection();
-            Statement statement = conn.createStatement();
-
-            statement.execute(table.getCreationScript());
-
-            conn.close();
-        } catch (SQLException e) {
-            log.error("Failed creating table " + table);
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    public static void cleanTable(Tables table) {
-        try {
-            Connection conn = getH2DataSource().getConnection();
-            Statement statement = conn.createStatement();
-
-            statement.execute("DELETE FROM " + table);
-
-            conn.close();
-        } catch (SQLException e) {
-            log.error("Failed cleaning table " + table);
-            throw new RuntimeException(e);
         }
     }
 }

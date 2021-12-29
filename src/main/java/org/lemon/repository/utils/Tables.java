@@ -5,8 +5,8 @@ public enum Tables {
             "CONCURRENCY_ID BIGINT(20) NOT NULL AUTO_INCREMENT," +
             "USER_ID BIGINT(20) NOT NULL," +
             "TIMESTAMP DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-            "PRIMARY KEY (CONCURRENCY_ID));" +
-            "CREATE INDEX user_id_idx ON CONCURRENCY(USER_ID)");
+            "PRIMARY KEY (CONCURRENCY_ID)," +
+            "INDEX (USER_ID))");
 
     private final String creationScript;
 

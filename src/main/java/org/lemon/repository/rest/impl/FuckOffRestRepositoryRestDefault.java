@@ -11,6 +11,7 @@ import org.lemon.repository.utils.RestRepositoryCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 
 @Singleton
@@ -20,8 +21,8 @@ public class FuckOffRestRepositoryRestDefault extends RestRepositoryCommon imple
     private static final String BASE_URI = "https://foaas.com";
 
     @Inject
-    public FuckOffRestRepositoryRestDefault(DefaultJsonJackson json) {
-        super(json);
+    public FuckOffRestRepositoryRestDefault(DefaultJsonJackson json, HttpClient httpClient) {
+        super(json, httpClient);
     }
 
     @Override
@@ -31,8 +32,8 @@ public class FuckOffRestRepositoryRestDefault extends RestRepositoryCommon imple
         try {
             return super.json.getObjectMapper().readValue(response.body(), FuckOff.class);
         } catch (Exception e) {
-            log.error("Error deserealizing FuckOff class.");
-            throw new JSONException("Error deserealizing FuckOff class.", e);
+            log.error("Error deserializing FuckOff class.");
+            throw new JSONException("Error deserializing FuckOff class.", e);
         }
     }
 }

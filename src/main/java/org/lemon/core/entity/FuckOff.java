@@ -14,7 +14,7 @@ public class FuckOff {
         this.message = message;
     }
 
-    public FuckOffBuilder builder() {
+    public static FuckOffBuilder builder() {
         return new FuckOffBuilder();
     }
 

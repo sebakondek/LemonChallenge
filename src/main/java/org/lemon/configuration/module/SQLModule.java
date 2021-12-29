@@ -29,8 +29,8 @@ public class SQLModule extends AbstractModule {
 
         int maxPoolSize = 10;
         int idlePoolSize = 3;
-        int connectionTimeout = 1000;
-        int idleTimeout = 5000;
+        int connectionTimeout = 10000;
+        int idleTimeout = 600000;
 
         HikariConfig config = new HikariConfig();
 

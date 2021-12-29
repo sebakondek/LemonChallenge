@@ -15,7 +15,7 @@ public abstract class EntrypointCommon implements Route {
             throw new ValidationException("Caller-id header cannot be null");
         }
 
-        Long userId = Long.parseLong(callerId);
+        long userId = Long.parseLong(callerId);
 
         if(1234 != userId) {
             throw new AuthorizationException("Caller-id is not authorized");

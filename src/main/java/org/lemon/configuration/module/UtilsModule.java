@@ -5,6 +5,8 @@ import org.lemon.configuration.util.DefaultJsonJackson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.http.HttpClient;
+
 public class UtilsModule extends AbstractModule {
 
     private static final Logger log = LoggerFactory.getLogger(UtilsModule.class);
@@ -14,6 +16,7 @@ public class UtilsModule extends AbstractModule {
         log.info("Initializing Utils");
 
         bind(DefaultJsonJackson.class).toInstance(new DefaultJsonJackson());
+        bind(HttpClient.class).toInstance(HttpClient.newHttpClient());
 
         log.info("Successfully initialized Utils");
     }
