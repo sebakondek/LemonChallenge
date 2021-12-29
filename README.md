@@ -29,6 +29,8 @@ Es obligatorio el envío del header x-caller-id y actualmente los únicos usuari
 
 420 - enhance_your_calm, se excedió el límite de veces que se puede solicitar un mensaje cada 10 segundos.
 
+423 - already_locked, el usuario que se está intentando procesar ya se encuentra procesando otro request.
+
 500 - NumberFormatException, el header x-caller-id tiene que ser solo numérico.
     - RepositoryException, ocurrió algún error inesperado con los repositorios. Más info en la respuesta.
     - JSONException, ocurrió algún error al intentar deserealizar la respuesta del servicio FuckOff. Mas info en la respuesta.
