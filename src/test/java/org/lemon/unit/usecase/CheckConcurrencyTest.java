@@ -15,6 +15,8 @@ import static org.mockito.Mockito.*;
 
 public class CheckConcurrencyTest {
 
+    private static final int CONCURRENCY_TIME_WINDOW = 10;
+
     private CheckConcurrency instance;
     @Mock
     private GetConcurrencyByUserIdRepository getConcurrencyByUserIdRepository;
@@ -27,33 +29,33 @@ public class CheckConcurrencyTest {
 
     @Test
     public void whenConcurrencyByUserIsLowerThan5_mustNotThrowException() {
-        when(getConcurrencyByUserIdRepository.execute(1234L)).thenReturn(4L);
+        when(getConcurrencyByUserIdRepository.execute(1234L, CONCURRENCY_TIME_WINDOW)).thenReturn(4L);
 
         Assertions.assertDoesNotThrow(() -> this.instance.execute(1234L));
-        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L);
+        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L, CONCURRENCY_TIME_WINDOW);
     }
 
     @Test
     public void whenConcurrencyByUserIsEqualTo5_mustThrowException() {
-        when(getConcurrencyByUserIdRepository.execute(1234L)).thenReturn(5L);
+        when(getConcurrencyByUserIdRepository.execute(1234L, CONCURRENCY_TIME_WINDOW)).thenReturn(5L);
 
         Assertions.assertThrows(ConcurrencyExceededException.class, () -> this.instance.execute(1234L));
-        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L);
+        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L, CONCURRENCY_TIME_WINDOW);
     }
 
     @Test
     public void whenConcurrencyByUserIsGreaterThan5_mustNotThrowException() {
-        when(getConcurrencyByUserIdRepository.execute(1234L)).thenReturn(6L);
+        when(getConcurrencyByUserIdRepository.execute(1234L, CONCURRENCY_TIME_WINDOW)).thenReturn(6L);
 
         Assertions.assertThrows(ConcurrencyExceededException.class, () -> this.instance.execute(1234L));
-        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L);
+        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L, CONCURRENCY_TIME_WINDOW);
     }
 
     @Test
     public void whenConcurrencyByUserThrowsException_mustThrowSameException() {
-        when(getConcurrencyByUserIdRepository.execute(1234L)).thenThrow(RepositoryException.class);
+        when(getConcurrencyByUserIdRepository.execute(1234L, CONCURRENCY_TIME_WINDOW)).thenThrow(RepositoryException.class);
 
         Assertions.assertThrows(RepositoryException.class, () -> this.instance.execute(1234L));
-        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L);
+        verify(getConcurrencyByUserIdRepository, times(1)).execute(1234L, CONCURRENCY_TIME_WINDOW);
     }
 }

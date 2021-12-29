@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 
 public class GetConcurrencyByUserIdRepositoryTest extends TestDatabaseHelper {
 
+    private static final int CONCURRENCY_TIME_WINDOW = 10;
+
     private GetConcurrencyByUserIdRepository instance;
 
     @BeforeEach
@@ -34,7 +36,7 @@ public class GetConcurrencyByUserIdRepositoryTest extends TestDatabaseHelper {
 
         super.insertMultipleConcurrency(userId, LocalDateTime.now(), concurrencyQty);
 
-        Long actualValue = this.instance.execute(userId);
+        Long actualValue = this.instance.execute(userId, CONCURRENCY_TIME_WINDOW);
 
         Assertions.assertEquals(concurrencyQty, actualValue);
     }
@@ -47,7 +49,7 @@ public class GetConcurrencyByUserIdRepositoryTest extends TestDatabaseHelper {
         super.insertConcurrency(userId, LocalDateTime.now().minusSeconds(11));
         super.insertMultipleConcurrency(userId, LocalDateTime.now(), concurrencyQty);
 
-        Long actualValue = this.instance.execute(userId);
+        Long actualValue = this.instance.execute(userId, CONCURRENCY_TIME_WINDOW);
 
         Assertions.assertEquals(concurrencyQty, actualValue);
     }
@@ -56,6 +58,6 @@ public class GetConcurrencyByUserIdRepositoryTest extends TestDatabaseHelper {
     public void whenTableDoesNotExist_mustThrowException() {
         DatabaseUtils.dropAllTables();
 
-        Assertions.assertThrows(RepositoryException.class, () -> this.instance.execute(1234L));
+        Assertions.assertThrows(RepositoryException.class, () -> this.instance.execute(1234L, CONCURRENCY_TIME_WINDOW));
     }
 }

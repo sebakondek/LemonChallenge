@@ -3,10 +3,12 @@ package org.lemon.unit.entrypoint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.lemon.configuration.util.LockManager;
 import org.lemon.core.entity.FuckOff;
 import org.lemon.core.usecase.interfaces.ProcessMessage;
 import org.lemon.entrypoint.MessageEntrypoint;
 import org.lemon.exception.custom.AuthorizationException;
+import org.lemon.exception.custom.LockException;
 import org.lemon.exception.custom.ValidationException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -28,11 +30,14 @@ public class MessageEntrypointTest {
     private Response response;
     @Mock
     private ProcessMessage processMessage;
+    private LockManager lockManager;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        this.instance = new MessageEntrypoint(processMessage);
+        this.lockManager = new LockManager();
+
+        this.instance = new MessageEntrypoint(processMessage, lockManager);
     }
 
     @Test
@@ -52,7 +57,7 @@ public class MessageEntrypointTest {
     public void whenHandleAndCallerIdIsNotPresent_mustThrowValidationException() {
         when(request.headers(CALLER_ID_HEADER)).thenReturn(null);
 
-        Assertions.assertThrows(ValidationException.class,() -> this.instance.handle(request, response));
+        Assertions.assertThrows(ValidationException.class, () -> this.instance.handle(request, response));
         Mockito.verifyNoInteractions(processMessage);
     }
 
@@ -60,15 +65,27 @@ public class MessageEntrypointTest {
     public void whenHandleAndCallerIdIsPresentButIsNotANumber_mustThrowNumberFormatException() {
         when(request.headers(CALLER_ID_HEADER)).thenReturn("abcd");
 
-        Assertions.assertThrows(NumberFormatException.class,() -> this.instance.handle(request, response));
+        Assertions.assertThrows(NumberFormatException.class, () -> this.instance.handle(request, response));
         Mockito.verifyNoInteractions(processMessage);
     }
 
     @Test
-    public void whenHandleAndCallerIdIsPresentButIsNot1234_mustThrowAuthorizationException() {
-        when(request.headers(CALLER_ID_HEADER)).thenReturn("5678");
+    public void whenHandleAndCallerIdIsPresentButIsNotAuthorized_mustThrowAuthorizationException() {
+        when(request.headers(CALLER_ID_HEADER)).thenReturn("9675");
 
-        Assertions.assertThrows(AuthorizationException.class,() -> this.instance.handle(request, response));
+        Assertions.assertThrows(AuthorizationException.class, () -> this.instance.handle(request, response));
         Mockito.verifyNoInteractions(processMessage);
+    }
+
+    @Test
+    public void whenHandleAndCallerIdIsPresentButIsBlocked_mustThrowLockException() {
+        lockManager.addLockKey("1234");
+
+        when(request.headers(CALLER_ID_HEADER)).thenReturn("1234");
+
+        Assertions.assertThrows(LockException.class, () -> this.instance.handle(request, response));
+        Mockito.verifyNoInteractions(processMessage);
+
+        lockManager.clearLock();
     }
 }

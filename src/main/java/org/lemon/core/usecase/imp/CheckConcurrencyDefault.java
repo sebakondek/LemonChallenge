@@ -10,6 +10,9 @@ import javax.inject.Singleton;
 @Singleton
 public class CheckConcurrencyDefault implements CheckConcurrency {
 
+    private static final int MAX_CONCURRENCY_BY_USER = 5;
+    private static final int CONCURRENCY_TIME_WINDOW = 10;
+
     private final GetConcurrencyByUserIdRepository getConcurrencyByUserIdRepository;
 
     @Inject
@@ -19,9 +22,9 @@ public class CheckConcurrencyDefault implements CheckConcurrency {
 
     @Override
     public void execute(Long userId) {
-        Long concurrencyByUser = this.getConcurrencyByUserIdRepository.execute(userId);
+        Long concurrencyByUser = this.getConcurrencyByUserIdRepository.execute(userId, CONCURRENCY_TIME_WINDOW);
 
-        if(5 <= concurrencyByUser) {
+        if(MAX_CONCURRENCY_BY_USER <= concurrencyByUser) {
             throw new ConcurrencyExceededException("Concurrency limit of 5 in the last 10 seconds was exceeded.");
         }
     }

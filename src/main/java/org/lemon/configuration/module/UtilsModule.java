@@ -2,6 +2,7 @@ package org.lemon.configuration.module;
 
 import com.google.inject.AbstractModule;
 import org.lemon.configuration.util.DefaultJsonJackson;
+import org.lemon.configuration.util.LockManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ public class UtilsModule extends AbstractModule {
 
         bind(DefaultJsonJackson.class).toInstance(new DefaultJsonJackson());
         bind(HttpClient.class).toInstance(HttpClient.newHttpClient());
+        bind(LockManager.class).toInstance(new LockManager());
 
         log.info("Successfully initialized Utils");
     }

@@ -15,7 +15,7 @@ La API disponibiliza un único endpoint que consume el servicio de [Fuck Off as 
 curl --location --request GET 'localhost:8080/message' \
 --header 'x-caller-id: 1234'
 ```
-Es obligatorio el envío del header x-caller-id y actualmente el único usuario permitido para operar es el `1234`
+Es obligatorio el envío del header x-caller-id y actualmente los únicos usuarios permitidos para operar son el `1234` o `5678`
 
 
 ### Posibles Respuestas
@@ -25,7 +25,7 @@ Es obligatorio el envío del header x-caller-id y actualmente el único usuario 
 
 400 - validation_exception, el header x-caller-id no puede ser nulo.
 
-401 - not_authorized, el caller-id no está autorizado. Actualmente solamente puede operar el usuario 1234.
+401 - not_authorized, el caller-id no está autorizado. Actualmente solamente pueden operar los usuarios 1234 o 5678
 
 420 - enhance_your_calm, se excedió el límite de veces que se puede solicitar un mensaje cada 10 segundos.
 

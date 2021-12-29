@@ -26,11 +26,11 @@ public class GetConcurrencyByUserIdDBRepository extends DBRepositoryCommon imple
     }
 
     @Override
-    public Long execute(Long userId) {
+    public Long execute(Long userId, int timeWindow) {
         LocalDateTime now = LocalDateTime.now();
 
         try {
-            return super.runQuery(QUERY, new ScalarHandler<>(), userId, now.minusSeconds(10), now);
+            return super.runQuery(QUERY, new ScalarHandler<>(), userId, now.minusSeconds(timeWindow), now);
         } catch (Exception e) {
             log.error("Error getting count from concurrency for user " + userId);
             throw new RepositoryException("Error getting count from concurrency for user " + userId, e);
